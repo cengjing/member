@@ -101,7 +101,7 @@
 		</view>
 		<view class=" flex flex-direction padding">
 			<button class="cu-btn block bg-black round lg" v-if="!user.vip" @click="create()">立即开通会员(¥{{data.price|1000}})</button>
-			<button class="cu-btn block bg-black round lg" v-else @click="edit()">续费(¥{{data.price|1000}})</button>
+			<button class="cu-btn block bg-black round lg" v-else @click="create()">续费(¥{{data.price|1000}})</button>
 		</view>
 		<view class="cu-modal" :class="modalName=='payHint'?'show':''">
 			<view class="cu-dialog">
@@ -200,6 +200,7 @@
 			},
 			//开通vip
 			create(){
+				const that = this
 				// #ifdef H5
 				Pay.unifiedPayment({
 					platform: this.payType,
@@ -225,29 +226,19 @@
 						signType: res.msg.signType,
 						paySign: res.msg.paySign,
 						success(res) {
-						  // console.log(res)
-						  // 订阅消息
-						  authMsg(['4iOC-HyjJeKK5HiYORcOtrKHvu2Ho1ScVF0aqP3KkzQ'])
+						  console.log(res)
 						  if(!that.user.email && !that.user.wechat){
 						  	uni.showModal({
 						  	  title: '提示',
 						  	  content: '您未打开通知功能，无法及时接收重要通知哦，是否现在去开启？',
 						  	  success (res) {
-						  	    if (res.confirm) {
-						  	      uni.redirectTo({
-						  	      	url: '/pages/set/message'
-						  	      })
-						  	    } else if (res.cancel) {
-						  	      uni.redirectTo({
-						  	      	url: '/pages/money/paySuccess'
-						  	      })
-						  	    }
+								that.getUser()
+						  	    that.$api.msg('支付成功');
 						  	  }
 						  	})
 						  }else{
-						  	uni.redirectTo({
-						  		url: '/pages/money/paySuccess'
-						  	})
+							that.getUser()
+						  	that.$api.msg('支付成功');
 						  }
 						},
 						fail(res) {
@@ -257,15 +248,6 @@
 					
 				})
 				// #endif
-			},
-			//续费vip
-			edit(){
-				Vip.create(this.data,function(res){
-					that.$api.msg('续费成功');
-					setTimeout(()=>{
-						uni.navigateBack()
-					}, 1000)
-				})
 			}
         }
     }  
