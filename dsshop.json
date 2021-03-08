@@ -1,0 +1,8 @@
+{
+    "name": "会员体系",
+    "abbreviation": "member",
+    "describe": "让你的项目支持超级会员，请先安装优惠券插件",
+    "url": "https://github.com/dspurl/member",
+    "download": "",
+    "versions": "1.0.0"
+}

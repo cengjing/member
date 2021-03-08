@@ -1,0 +1,5 @@
+{
+  "app": "Route::get('vip', 'VipController@list');  //VIP费用列表",
+  "uniApp": ",\n\t\t{\n\t\t\t\"path\": \"pages/vip/index\",\n\t\t\t\"style\": {\n\t\t\t\t\"navigationBarTitleText\": \"超级会员\"\n\t\t\t}\n\t\t}",
+  "observers": "\\App\\Models\\v1\\PaymentLog::observe(\\App\\Observers\\PaymentLog\\VipPaymentCreateObserver::class);\n        \\App\\Models\\v1\\PaymentLog::observe(\\App\\Observers\\PaymentLog\\VipPaymentSucceedObserver::class);\n        \\App\\Models\\v1\\GoodIndent::observe(\\App\\Observers\\GoodIndent\\CreateIndentVipFreightReductionObserver::class);"
+}
